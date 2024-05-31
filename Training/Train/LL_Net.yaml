@@ -1,0 +1,51 @@
+
+# 硬件配置
+gpu: "0"
+
+# 数据集相关
+dataset_name: "IXI"
+data_path: "/media/milab/Projects/CYZ/MSL_Reg/Datasets/IXI"
+
+# 模型相关, 这里的参数和模型输入参数需要一致，包括变量名称
+# 模型的名称，同时也是模型对应的python文件的文件名
+model_name: "LL_Net"
+model_hyperparameters:
+  # 初始通道个数
+  start_channels: 8
+  # 大核卷积的大小
+  large_kernel: 5
+  # 小核卷积的大小
+  small_kernel: 3
+  # 输入通道
+  in_channels: 2
+  # 输出形变场的维度
+  out_channels: 3
+
+# 训练相关，以下是训练超参数
+training_hyperparameters:
+  # 是否开启断点重启，正常训练false就行
+  is_breakpoint: False
+  # 如果上面的断点开启了，这里的start_epoch要与重启的epoch一致
+  start_epoch: 0
+  # 断点加载对应的模型权重路径
+  pretrain_model_weights_name: ""
+  batch_size: 1
+  # 这个是梯度累计，默认为0，即不开启
+  num_accumulation: 0
+  learning_rate: 0.0001
+  # 总的训练epoch次数
+  num_epoch: 200
+  # 验证的epoch，如果指标提升就保存模型
+  save_epoch: 1
+  # 损失函数：NCC，SAD，MSE
+  similarity_loss: "NCC"
+  # 相似度量和型变场正则化的损失权重系数
+  loss_weights: [1.0, 5.0]
+
+# 保存训练日志时，文件夹命名元素
+# model_name + dataset_name + batch_size + similarity_loss + learning_rate
+# 必须是str函数可以接受的参数
+log_file_name:
+  SC: 8
+  LK: 5
+  SK: 3
